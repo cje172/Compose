@@ -34,7 +34,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import com.example.compose.ui.theme.ComposeTheme
-import com.example.compose.ui.theme.Purple700
+import com.example.compose.ui.theme.MyCustomCard
+import com.example.compose.ui.theme.Publisher
 
 class MainActivity : ComponentActivity() {
 
@@ -42,70 +43,25 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeTheme {
-//                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-//                    Text(text = stringResource(id = R.string.jieun).plus(" ").repeat(30),
-//                    maxLines = 3,
-//                    overflow = TextOverflow.Ellipsis)
-//                }
-
-//                Text(
-//                    text = "Hello World",
-//                    color = Color.Magenta,
-//                    fontSize = 32.sp,
-//                    textDecoration = TextDecoration.Underline,
-//                    textAlign = TextAlign.Start,
-//                    modifier = Modifier.fillMaxWidth()
-//                )
-
-                Box(modifier = Modifier.fillMaxSize().background(Color.Black), contentAlignment = Alignment.Center) {
-                    val annotatedString = buildAnnotatedString {
-                        blueGradientText("NEW")
-                        append("\n\n")
-                        pinkBlueGradientText("Gradient")
-                        append("\n\n")
-                        blueGradientText("text")
-                    }
-
-                    Text(text = annotatedString)
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.8f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    MyCustomCard(
+                        modifier = Modifier.fillMaxWidth(fraction = 0.8f),
+                        image = R.drawable.elephant,
+                        title = "Shadows & Lightnings",
+                        text = "Create subtle and stunning UI designs with this tips using Jetpack Compose, The new UI Toolkit for building UI in Android",
+                        publisher = Publisher(
+                            name = "Jieun Choi",
+                            image = R.drawable.myimage,
+                            job = "Android Developer")
+                    )
                 }
+
             }
-
-        }
-    }
-
-    @OptIn(ExperimentalTextApi::class)
-    private fun AnnotatedString.Builder.blueGradientText(text: String) {
-        withStyle(
-            style = SpanStyle(
-                brush = Brush.linearGradient(
-                    colors = listOf(
-                        Color(0xFF2788C7),
-                        Color(0xFF00BBD4)
-                    )
-                ),
-                fontSize = 42.sp,
-                fontWeight = FontWeight.Medium
-            )
-        ) {
-            append(text)
-        }
-    }
-
-    @OptIn(ExperimentalTextApi::class)
-    private fun AnnotatedString.Builder.pinkBlueGradientText(text: String) {
-        withStyle(
-            style = SpanStyle(
-                brush = Brush.linearGradient(
-                    colors = listOf(
-                        Color(0xFFFF3885),
-                        Color(0xFF00BBD4)
-                    )
-                ),
-                fontSize = 48.sp,
-                fontWeight = FontWeight.Medium
-            )
-        ) {
-            append(text)
         }
     }
 }
