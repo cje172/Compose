@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -44,21 +45,42 @@ class MainActivity : ComponentActivity() {
         setContent {
             ComposeTheme {
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Black.copy(alpha = 0.8f)),
+                    modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    MyCustomCard(
-                        modifier = Modifier.fillMaxWidth(fraction = 0.8f),
-                        image = R.drawable.elephant,
-                        title = "Shadows & Lightnings",
-                        text = "Create subtle and stunning UI designs with this tips using Jetpack Compose, The new UI Toolkit for building UI in Android",
-                        publisher = Publisher(
-                            name = "Jieun Choi",
-                            image = R.drawable.myimage,
-                            job = "Android Developer")
-                    )
+                    Button(
+                        modifier = Modifier
+                            .height(50.dp)
+                            .width(140.dp),
+                        shape = RoundedCornerShape(topStart = 10.dp, bottomEnd = 10.dp),
+                        enabled = true,
+                        elevation = ButtonDefaults.elevation(
+                            defaultElevation = 30.dp
+                        ),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Color(0xFF2D4356),
+                            contentColor = Color.Green,
+                            disabledBackgroundColor = Color.LightGray,
+                            disabledContentColor = Color.White
+                        ),
+                        onClick = { }
+                    ) {
+                        Icon(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = null)
+                        Text(text = "Click")
+                    }
+
+//                    TextButton(onClick = { /*TODO*/ }) {
+//                        Text(text = "Click Me")
+//                    }
+//
+//                    IconButton(onClick = { /*TODO*/ }) {
+//                        Icon(painter = painterResource(id =R.drawable.ic_launcher_foreground), contentDescription = null)
+//                    }
+//
+//                    ElevatedButton(onClick = { /*TODO*/ }) {
+//
+//                    }
+
                 }
 
             }
