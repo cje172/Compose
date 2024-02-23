@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -37,6 +39,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.compose.ui.theme.ComposeTheme
 import com.example.compose.ui.theme.MyCustomCard
 import com.example.compose.ui.theme.Publisher
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 
 class MainActivity : ComponentActivity() {
 
@@ -44,43 +54,63 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeTheme {
-                Box(
+                Column(
                     modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ) {
-                    Button(
-                        modifier = Modifier
-                            .height(50.dp)
-                            .width(140.dp),
-                        shape = RoundedCornerShape(topStart = 10.dp, bottomEnd = 10.dp),
-                        enabled = true,
-                        elevation = ButtonDefaults.elevation(
-                            defaultElevation = 30.dp
-                        ),
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color(0xFF2D4356),
-                            contentColor = Color.Green,
-                            disabledBackgroundColor = Color.LightGray,
-                            disabledContentColor = Color.White
-                        ),
-                        onClick = { }
-                    ) {
-                        Icon(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = null)
-                        Text(text = "Click")
+                    var text by remember {
+                        mutableStateOf("")
                     }
 
-//                    TextButton(onClick = { /*TODO*/ }) {
-//                        Text(text = "Click Me")
-//                    }
-//
-//                    IconButton(onClick = { /*TODO*/ }) {
-//                        Icon(painter = painterResource(id =R.drawable.ic_launcher_foreground), contentDescription = null)
-//                    }
-//
-//                    ElevatedButton(onClick = { /*TODO*/ }) {
-//
-//                    }
+                    var isPasswordVisible by remember {
+                        mutableStateOf(false)
+                    }
 
+                    val focusRequester = remember {
+                        FocusRequester()
+                    }
+
+                    TextField(
+                        value = text,
+                        onValueChange = { text = it },
+                        leadingIcon = {Icon(
+                            painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                            contentDescription = null
+                        )},
+                        trailingIcon = {
+                            TextButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
+                                Text(text = if (isPasswordVisible) "Hide" else "Show")
+                            }
+                        },
+                        colors = TextFieldDefaults.textFieldColors(
+                            backgroundColor = Color.Transparent,
+                            cursorColor = Color.Red
+                        ),
+                        singleLine = true,
+//                        placeholder = {
+//                            Text(text = "Password")
+//                        },
+                        label = {
+                            Text(text = "Password")
+                        },
+                        visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                        keyboardOptions = KeyboardOptions(
+                            autoCorrect = false,
+                            keyboardType = KeyboardType.NumberPassword,
+                            imeAction = ImeAction.Go
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onGo = {
+                                Log.d("test", "OnGo click")
+                            }
+                        ),
+                        modifier = Modifier.focusRequester(focusRequester)
+                    )
+
+                    Button(onClick = { focusRequester.requestFocus() }) {
+                        Text(text = "Request focus")
+                    }
                 }
 
             }
